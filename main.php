@@ -1,5 +1,5 @@
 <?php
-include('Venta.php');
+//include('Venta.php');
 
 function preCargarArrayProdMasVendido(){
         $prodMasVendido = [];
@@ -45,8 +45,8 @@ function ingresarVenta($ventas){
     print("Ingrese la cantidad de productos:");
     $cantProductos = readline();
     
-    //Creo una nueva instancia de la clase Venta con sus respectivos atributos
-    $nuevaVenta = new Venta($precio, $producto, $cantProductos, $indiceMes);
+    //Creo una nueva instancia de la clase Venta con sus respectivos atributos (Esto era en el caso de utilizar la clase Venta)
+    // $nuevaVenta = new Venta($precio, $producto, $cantProductos, $indiceMes); 
     
     //Sumo el monto de la venta en el mes correspondiente en el arreglo ventas[]
     $ventas[$indiceMes] += $precio;
