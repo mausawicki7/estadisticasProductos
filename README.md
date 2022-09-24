@@ -5,7 +5,6 @@
 Universidad Nacional del Comahue - 2022
 
 ## 👨‍💻 Author
-
 - [Mauricio Sawicki](https://mausa.dev)
 
 
