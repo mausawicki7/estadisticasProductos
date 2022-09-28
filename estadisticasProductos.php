@@ -59,11 +59,6 @@ function actualizarProdMasVendido($ventas, $indiceMes, $producto, $precio, $cant
     return $prodMasVendido;
 }
 
-
-function verVentas($ventas, $unIndiceMes){
-    
-}
-
 //Función que recibe el arreglo de ventas y retorna el mes que mayor monto de ventas tuvo
 function mesConMayorMontoDeVentas($ventas){
     $longitud = count($ventas);
