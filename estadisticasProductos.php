@@ -93,7 +93,7 @@ function primerMesQueSuperaMontoVentas($ventas, $montoASuperar){
     return $indiceDelMesQueSuperaElMonto;
 }
 
-//Función auxiliar para el metodo de ordenamiento usort, para arreglar el array prodMasVendidos
+//Función auxiliar para el metodo de ordenamiento usort, para ordenar el array prodMasVendidos de mayor a menor
 function compara_monto($a, $b){
     return $a['montoVenta'] < $b['montoVenta'];
  }
