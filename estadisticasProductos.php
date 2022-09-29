@@ -59,6 +59,7 @@ function actualizarProdMasVendido($ventas, $indiceMes, $producto, $precio, $cant
     return $prodMasVendido;
 }
 
+
 //Función que recibe el arreglo de ventas y retorna el mes que mayor monto de ventas tuvo
 function mesConMayorMontoDeVentas($ventas){
     $longitud = count($ventas);
@@ -92,22 +93,22 @@ function primerMesQueSuperaMontoVentas($ventas, $montoASuperar){
     return $indiceDelMesQueSuperaElMonto;
 }
 
-function verProductosMasVendidos($prodMasVendidos){ //REVISAR!!!
+//Función auxiliar para el metodo de ordenamiento usort, para arreglar el array prodMasVendidos
+function compara_monto($a, $b){
+    return $a['montoVenta'] < $b['montoVenta'];
+ }
+
+//Función que devuelve el array $prodMasVendidos ordenado de mayor a menor por el campo montoVenta
+function verProductosMasVendidos($prodMasVendidos){
     $longitudMasVendidos = count($prodMasVendidos);
-    $prodMasVendidosOrdenados = [];
-    
-    print_r($prodMasVendidos);
     for($i=0; $i<$longitudMasVendidos; $i++){
         $montoVenta = $prodMasVendidos[$i]["precioProd"] * $prodMasVendidos[$i]["cantProd"];
-        //Agrego nuevo atributo montoVenta a cada elemento del array para poder ordenarlos por ese atributo
+        //Agrego nuevo campo montoVenta a cada elemento del array para poder ordenarlos por ese atributo
         $prodMasVendidos[$i]["montoVenta"] = $montoVenta; 
-
     }
+    usort($prodMasVendidos, 'compara_monto');
     
-  
-    print_r($prodMasVendidosOrdenados);  
-   
-    
+    return $prodMasVendidos;
 }
 
 //Funciones Auxiliares
@@ -261,7 +262,6 @@ function menuOpciones($arrayVentas, $arrayProdMasVendido){
             
         case '2':
             echo("Seleccionaste (2) MES CON MAYOR MONTO DE VENTAS\n");
-            print_r($arrayVentas); 
             $indiceMesConMasVentas = mesConMayorMontoDeVentas($arrayVentas);
             $mesConMasVentas = convertirIndiceAMes($indiceMesConMasVentas);
             echo("<".$mesConMasVentas.">\n");
@@ -294,7 +294,9 @@ function menuOpciones($arrayVentas, $arrayProdMasVendido){
         
         case '5':
             echo("Seleccionaste (5) PRODUCTOS MAS VENDIDOS ORDENADOS DE MAYOR A MENOR\n");
-            verProductosMasVendidos($arrayProdMasVendido, $arrayVentas); //REVISAR!!
+            $prodMasVendidosOrdenados = verProductosMasVendidos($arrayProdMasVendido, $arrayVentas);
+            echo("Arreglo ordenado de mayor a menor: \n");
+            print_r($prodMasVendidosOrdenados);
             break;
             
         case '6':
