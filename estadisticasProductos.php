@@ -79,13 +79,14 @@ function mesConMayorMontoDeVentas($ventas){
 //ingresado por parámetro
 function primerMesQueSuperaMontoVentas($ventas, $montoASuperar){
     $longitud = count($ventas);
-    $bandera = true;
+    $encontrado = false;
     $i = 0;
-    
-    while($bandera){
+    $indiceDelMesQueSuperaElMonto = -1;
+
+    while(!$encontrado && $i<$longitud){
         if($ventas[$i]>$montoASuperar){
             $indiceDelMesQueSuperaElMonto = $i;
-            $bandera = false;
+            $encontrado = true;
         }
         $i++;
     }
@@ -93,7 +94,7 @@ function primerMesQueSuperaMontoVentas($ventas, $montoASuperar){
     return $indiceDelMesQueSuperaElMonto;
 }
 
-//Función auxiliar para el metodo de ordenamiento usort, para ordenar el array prodMasVendidos de mayor a menor
+//Función auxiliar para el metodo de ordenamiento usort, para arreglar el array prodMasVendidos
 function compara_monto($a, $b){
     return $a['montoVenta'] < $b['montoVenta'];
  }
@@ -106,7 +107,7 @@ function verProductosMasVendidos($prodMasVendidos){
         //Agrego nuevo campo montoVenta a cada elemento del array para poder ordenarlos por ese atributo
         $prodMasVendidos[$i]["montoVenta"] = $montoVenta; 
     }
-    usort($prodMasVendidos, 'compara_monto');
+    uasort($prodMasVendidos, 'compara_monto');
     
     return $prodMasVendidos;
 }
@@ -209,6 +210,15 @@ function convertirIndiceAMes($unIndiceMes){
     return $nombreMes;
 }
 
+function verInfoMes($indiceMes, $arrayProdMasVendido, $arrayVentas){
+            $nombreMes = convertirIndiceAMes($indiceMes);
+            echo("<".$nombreMes.">\n");
+            echo("El producto con mayor monto de venta: ".$arrayProdMasVendido[$indiceMes]["prod"]."\n");
+            echo("Cantidad de productos vendidos: ".$arrayProdMasVendido[$indiceMes]["cantProd"]."\n");
+            echo("Precio unitario: $".$arrayProdMasVendido[$indiceMes]["precioProd"]."\n");
+            echo("Monto de venta del producto: $".$arrayVentas[$indiceMes]."\n");
+}
+
 function menuOpciones($arrayVentas, $arrayProdMasVendido){
     $salir = false;
 
@@ -263,12 +273,7 @@ function menuOpciones($arrayVentas, $arrayProdMasVendido){
         case '2':
             echo("Seleccionaste (2) MES CON MAYOR MONTO DE VENTAS\n");
             $indiceMesConMasVentas = mesConMayorMontoDeVentas($arrayVentas);
-            $mesConMasVentas = convertirIndiceAMes($indiceMesConMasVentas);
-            echo("<".$mesConMasVentas.">\n");
-            echo("El producto con mayor monto de venta: ".$arrayProdMasVendido[$indiceMesConMasVentas]["prod"]."\n");
-            echo("Cantidad de productos vendidos: ".$arrayProdMasVendido[$indiceMesConMasVentas]["cantProd"]."\n");
-            echo("Precio unitario: $".$arrayProdMasVendido[$indiceMesConMasVentas]["precioProd"]."\n");
-            echo("Monto de venta del producto: $".$arrayVentas[$indiceMesConMasVentas]."\n");
+            verInfoMes($indiceMesConMasVentas, $arrayProdMasVendido, $arrayVentas);
             break;
         
         case '3': 
@@ -276,8 +281,11 @@ function menuOpciones($arrayVentas, $arrayProdMasVendido){
             echo("Ingresa el monto:\n");
             $montoIngresado = readline();
             $indiceDelMesQueSuperaElMonto = primerMesQueSuperaMontoVentas($arrayVentas, $montoIngresado);
-            $mesConvertido = convertirIndiceAMes($indiceDelMesQueSuperaElMonto);
-            echo("El primer mes que supera el monto de ".$montoIngresado." en ventas, es: ".$mesConvertido);
+            if($indiceDelMesQueSuperaElMonto != -1){
+                verInfoMes($indiceDelMesQueSuperaElMonto, $arrayProdMasVendido, $arrayVentas);
+            }else{
+                echo("Error.\n");
+            }
             break;
         
         case '4': 
@@ -285,11 +293,7 @@ function menuOpciones($arrayVentas, $arrayProdMasVendido){
             echo("Ingresa el nombre del mes que deseas ver la información:\n");
             $nombreMes = readline();
             $indiceMes = convertirMesAIndice($nombreMes);
-            echo("<".$nombreMes.">\n");
-            echo("El producto con mayor monto de venta: ".$arrayProdMasVendido[$indiceMes]["prod"]."\n");
-            echo("Cantidad de productos vendidos: ".$arrayProdMasVendido[$indiceMes]["cantProd"]."\n");
-            echo("Precio unitario: $".$arrayProdMasVendido[$indiceMes]["precioProd"]."\n");
-            echo("Monto de venta del producto: $".$arrayVentas[$indiceMes]."\n");
+            verInfoMes($indiceMes, $arrayProdMasVendido, $arrayVentas);
             break;
         
         case '5':
